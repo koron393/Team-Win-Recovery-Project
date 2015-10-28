@@ -17,14 +17,21 @@ LOCAL_PATH := $(call my-dir)
 ifdef project-path-for
     ifeq ($(LOCAL_PATH),$(call project-path-for,recovery))
         PROJECT_PATH_AGREES := true
+        BOARD_SEPOLICY_DIRS += bootable/recovery-twrp/sepolicy
     endif
 else
     ifeq ($(LOCAL_PATH),bootable/recovery)
         PROJECT_PATH_AGREES := true
+        BOARD_SEPOLICY_DIRS += bootable/recovery/sepolicy
     endif
 endif
 
 ifeq ($(PROJECT_PATH_AGREES),true)
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -gt 20; echo $$?),0)
+# Make recovery domain permissive for TWRP
+    BOARD_SEPOLICY_UNION += twrp.te
+endif
 
 include $(CLEAR_VARS)
 
@@ -93,14 +100,30 @@ LOCAL_CFLAGS += -Wno-unused-parameter
 #    libm \
 #    libc
 
+LOCAL_C_INCLUDES += \
+    system/vold \
+    system/extras/ext4_utils \
+    system/core/adb \
+
 LOCAL_C_INCLUDES += bionic external/stlport/stlport external/openssl/include $(LOCAL_PATH)/libmincrypt/includes
 
 LOCAL_STATIC_LIBRARIES :=
 LOCAL_SHARED_LIBRARIES :=
 
+<<<<<<< HEAD
 LOCAL_STATIC_LIBRARIES += libguitwrp libcp_xattrs
 LOCAL_SHARED_LIBRARIES += libz libc libstlport libcutils libstdc++ libtar libblkid libminuitwrp libminadbd libmtdutils libminzip libaosprecovery
 LOCAL_SHARED_LIBRARIES += libgccdemangle libcrecovery
+LOCAL_STATIC_LIBRARIES += libguitwrp
+LOCAL_SHARED_LIBRARIES += libz libc libcutils libstdc++ libtar libblkid libminuitwrp libminadbd libmtdutils libminzip libaosprecovery
+LOCAL_SHARED_LIBRARIES += libcrecovery
+
+ifneq ($(wildcard external/stlport/Android.mk),)
+    LOCAL_SHARED_LIBRARIES += libstlport
+else
+    LOCAL_SHARED_LIBRARIES += libc++
+endif
+>>>>>>> android-6.0
 
 # clone libbootimg to /system/extras/ from
 # https://github.com/Tasssadar/libbootimg.git
@@ -123,7 +146,7 @@ ifeq ($(TARGET_USERIMAGES_USE_EXT4), true)
     LOCAL_C_INCLUDES += system/extras/ext4_utils
     LOCAL_SHARED_LIBRARIES += libext4_utils
     ifneq ($(wildcard external/lz4/Android.mk),)
-        LOCAL_STATIC_LIBRARIES += liblz4-static
+        #LOCAL_STATIC_LIBRARIES += liblz4-static
     endif
 endif
 ifneq ($(wildcard external/libselinux/Android.mk),)
@@ -148,14 +171,10 @@ ifeq ($(TWHAVE_SELINUX), true)
     endif
 endif
 
-# This binary is in the recovery ramdisk, which is otherwise a copy of root.
-# It gets copied there in config/Makefile.  LOCAL_MODULE_TAGS suppresses
-# a (redundant) copy of the binary in /system/bin for user builds.
-# TODO: Build the ramdisk image in a more principled way.
-LOCAL_MODULE_TAGS := eng
+LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
 
 #ifeq ($(TARGET_RECOVERY_UI_LIB),)
-  LOCAL_SRC_FILES += default_device.cpp
+#  LOCAL_SRC_FILES += default_device.cpp
 #else
 #  LOCAL_STATIC_LIBRARIES += $(TARGET_RECOVERY_UI_LIB)
 #endif
@@ -281,6 +300,7 @@ endif
 ifeq ($(TW_INCLUDE_CRYPTO), true)
     LOCAL_CFLAGS += -DTW_INCLUDE_CRYPTO
     LOCAL_SHARED_LIBRARIES += libcryptfslollipop
+    LOCAL_C_INCLUDES += external/boringssl/src/include
 endif
 ifeq ($(TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID), true)
     LOCAL_CFLAGS += -DTW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID
@@ -318,6 +338,7 @@ endif
 ifneq ($(wildcard bionic/libc/include/sys/capability.h),)
     LOCAL_CFLAGS += -DHAVE_CAPABILITIES
 endif
+<<<<<<< HEAD
 ifneq ($(LANDSCAPE_RESOLUTION),)
     LOCAL_CFLAGS += -DTW_HAS_LANDSCAPE
 endif
@@ -351,6 +372,13 @@ else
 endif
 endif
 LOCAL_CFLAGS += -DPLATFORM_SDK_VERSION=$(PLATFORM_SDK_VERSION)
+ifneq ($(TARGET_RECOVERY_INITRC),)
+    TW_EXCLUDE_DEFAULT_USB_INIT := true
+endif
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -gt 22; echo $$?),0)
+    LOCAL_CFLAGS += -DTW_USE_NEW_MINADBD
+endif
+>>>>>>> android-6.0
 
 LOCAL_ADDITIONAL_DEPENDENCIES := \
     dump_image \
@@ -366,7 +394,8 @@ LOCAL_ADDITIONAL_DEPENDENCIES := \
     dosfsck \
     dosfslabel \
     fsck_msdos_symlink \
-    mkdosfs
+    mkdosfs \
+    permissive.sh
 
 # MultiROM additions
 LOCAL_ADDITIONAL_DEPENDENCIES += \
@@ -388,6 +417,10 @@ else
 endif
 ifneq ($(TW_USE_TOOLBOX), true)
     LOCAL_ADDITIONAL_DEPENDENCIES += busybox_symlinks
+else
+    ifneq ($(wildcard external/toybox/Android.mk),)
+        LOCAL_ADDITIONAL_DEPENDENCIES += toybox_symlinks
+    endif
 endif
 ifneq ($(TW_NO_EXFAT), true)
     LOCAL_ADDITIONAL_DEPENDENCIES += mkexfatfs
@@ -422,12 +455,21 @@ endif
 ifeq ($(TW_INCLUDE_INJECTTWRP), true)
     LOCAL_ADDITIONAL_DEPENDENCIES += injecttwrp
 endif
+ifneq ($(TW_EXCLUDE_DEFAULT_USB_INIT), true)
+    LOCAL_ADDITIONAL_DEPENDENCIES += init.recovery.usb.rc
+endif
 # Allow devices to specify device-specific recovery dependencies
 ifneq ($(TARGET_RECOVERY_DEVICE_MODULES),)
     LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_RECOVERY_DEVICE_MODULES)
 endif
 LOCAL_CFLAGS += -DTWRES=\"$(TWRES_PATH)\"
 LOCAL_CFLAGS += -DTWHTCD_PATH=\"$(TWHTCD_PATH)\"
+ifeq ($(TW_INCLUDE_NTFS_3G),true)
+    LOCAL_ADDITIONAL_DEPENDENCIES += \
+        ntfs-3g \
+        ntfsfix \
+        mkntfs
+endif
 
 include $(BUILD_EXECUTABLE)
 
@@ -523,9 +565,7 @@ endif
 include $(BUILD_SHARED_LIBRARY)
 
 commands_recovery_local_path := $(LOCAL_PATH)
-include $(LOCAL_PATH)/minui/Android.mk \
-    $(LOCAL_PATH)/minadbd/Android.mk \
-    $(LOCAL_PATH)/tests/Android.mk \
+include $(LOCAL_PATH)/tests/Android.mk \
     $(LOCAL_PATH)/tools/Android.mk \
     $(LOCAL_PATH)/edify/Android.mk \
     $(LOCAL_PATH)/updater/Android.mk \
@@ -533,6 +573,15 @@ include $(LOCAL_PATH)/minui/Android.mk \
 
 ifeq ($(wildcard system/core/uncrypt/Android.mk),)
     include $(commands_recovery_local_path)/uncrypt/Android.mk
+endif
+
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -gt 22; echo $$?),0)
+    include $(commands_recovery_local_path)/minadbd/Android.mk \
+        $(commands_recovery_local_path)/minui/Android.mk
+else
+    TARGET_GLOBAL_CFLAGS += -DTW_USE_OLD_MINUI_H
+    include $(commands_recovery_local_path)/minadbd.old/Android.mk \
+        $(commands_recovery_local_path)/minui.old/Android.mk
 endif
 
 #includes for TWRP
@@ -556,9 +605,14 @@ include $(commands_recovery_local_path)/injecttwrp/Android.mk \
     $(commands_recovery_local_path)/mtp/Android.mk \
     $(commands_recovery_local_path)/minzip/Android.mk \
     $(commands_recovery_local_path)/dosfstools/Android.mk \
+<<<<<<< HEAD
     $(commands_recovery_local_path)/phablet/Android.mk \
     $(commands_recovery_local_path)/simg2img/Android.mk \
     $(commands_recovery_local_path)/cp_xattrs/Android.mk
+    $(commands_recovery_local_path)/etc/Android.mk \
+    $(commands_recovery_local_path)/toybox/Android.mk \
+    $(commands_recovery_local_path)/libpixelflinger/Android.mk
+>>>>>>> android-6.0
 
 ifeq ($(TW_INCLUDE_CRYPTO), true)
     include $(commands_recovery_local_path)/crypto/lollipop/Android.mk
