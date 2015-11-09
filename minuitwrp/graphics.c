@@ -629,7 +629,6 @@ unsigned int gr_get_height(gr_surface surface) {
     return ((GGLSurface*) surface)->height;
 }
 
-<<<<<<< HEAD
 void* gr_loadFont(const char* fontName)
 {
     int fd;
@@ -704,7 +703,6 @@ void gr_freeFont(void *font)
     free(f);
 }
 
->>>>>>> android-6.0
 int gr_getMaxFontHeight(void *font)
 {
     GRFont *fnt = (GRFont*) font;

@@ -290,7 +290,6 @@
 				<conditions>
 					<condition var1="tw_no_cpu_temp" var2="0" />
 				</conditions>
-<<<<<<< HEAD
 				<text>CPU: %tw_cpu_temp%° C</text>
 			</object>
 
@@ -300,7 +299,6 @@
 				<condition var1="multirom_rom_name_title" var2="1" />
 				<text>Using ROM: %tw_multirom_rom_name%</text>
 				<text>CPU: %tw_cpu_temp% &#xB0;C</text>
->>>>>>> android-6.0
 			</object>
 
 			<object type="button">

@@ -121,7 +121,6 @@ ifeq ($(TW_DISABLE_TTF), true)
 endif
 
 LOCAL_CFLAGS += -DTWRES=\"$(TWRES_PATH)\"
-<<<<<<< HEAD
 
 ifneq ($(LANDSCAPE_RESOLUTION),)
   LOCAL_CFLAGS += -DTW_HAS_LANDSCAPE
@@ -134,7 +133,6 @@ LOCAL_SHARED_LIBRARIES += libz libc libcutils libjpeg libpng
 LOCAL_STATIC_LIBRARIES += libpixelflinger_static
 LOCAL_SHARED_LIBRARIES += libft2 libz libc libcutils libjpeg libpng
 LOCAL_STATIC_LIBRARIES += libpixelflinger_twrp
->>>>>>> android-6.0
 LOCAL_MODULE_TAGS := eng
 LOCAL_MODULE := libminuitwrp
 

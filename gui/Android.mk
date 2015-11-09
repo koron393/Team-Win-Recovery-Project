@@ -154,7 +154,6 @@ else
         $(warning ****************************************************************************)
         $(error stopping)
     endif
-<<<<<<< HEAD
 
     ifeq ($(TW_THEME_LANDSCAPE),)
         # This converts the old DEVICE_RESOLUTION flag to the new TW_THEME flag
@@ -177,29 +176,17 @@ else
     endif
     ifeq ($(TW_THEME_LANDSCAPE), portrait_mdpi)
         TWRP_THEME_LOC_LANDSCAPE := $(commands_recovery_local_path)/gui/devices/480x800/res
-        TWRP_COMMON_XML_LANDSCAPE := cp -fr $(commands_recovery_local_path)/gui/devices/portrait/res/* $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)landscape/
     else ifeq ($(TW_THEME_LANDSCAPE), portrait_hdpi)
         TWRP_THEME_LOC_LANDSCAPE := $(commands_recovery_local_path)/gui/devices/1080x1920/res
-        TWRP_COMMON_XML_LANDSCAPE := cp -fr $(commands_recovery_local_path)/gui/devices/portrait/res/* $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)landscape/
     else ifeq ($(TW_THEME_LANDSCAPE), watch_mdpi)
         TWRP_THEME_LOC_LANDSCAPE := $(commands_recovery_local_path)/gui/devices/320x320/res
-        TWRP_COMMON_XML_LANDSCAPE := cp -fr $(commands_recovery_local_path)/gui/devices/watch/res/* $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)landscape/
     else ifeq ($(TW_THEME_LANDSCAPE), landscape_mdpi)
         TWRP_THEME_LOC_LANDSCAPE := $(commands_recovery_local_path)/gui/devices/800x480/res
-        TWRP_COMMON_XML_LANDSCAPE := cp -fr $(commands_recovery_local_path)/gui/devices/landscape/res/* $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)landscape/
     else ifeq ($(TW_THEME_LANDSCAPE), landscape_hdpi)
         TWRP_THEME_LOC_LANDSCAPE := $(commands_recovery_local_path)/gui/devices/1920x1200/res
-        TWRP_COMMON_XML_LANDSCAPE := cp -fr $(commands_recovery_local_path)/gui/devices/landscape/res/* $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)landscape/
     endif
-else
-    TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
 endif
 
-
-ifeq ($(TW_DISABLE_TTF), true)
-    TWRP_REMOVE_FONT := rm -f $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)fonts/*.ttf
-endif
->>>>>>> android-6.0
 else
     TWRP_THEME_LOC := $(TW_CUSTOM_THEME)
 endif
@@ -215,16 +202,11 @@ $(TWRP_RES_GEN):
 	mkdir -p $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)
 	cp -fr $(TWRP_RES) $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)
 	cp -fr $(TWRP_THEME_LOC)/* $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)
-<<<<<<< HEAD
-	$(TWRP_COMMON_XML)
-	$(TWRP_REMOVE_FONT)
 ifneq ($(TWRP_THEME_LOC_LANDSCAPE),)
 	mkdir -p $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)landscape/
-	cp -fr $(TWRP_RES_LOC)/* $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)landscape/
+	cp -fr $(TWRP_RES) $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)landscape/
 	cp -fr $(TWRP_THEME_LOC_LANDSCAPE)/* $(TARGET_RECOVERY_ROOT_OUT)$(TWRES_PATH)landscape/
-	$(TWRP_COMMON_XML_LANDSCAPE)
 endif
->>>>>>> android-6.0
 	mkdir -p $(TARGET_RECOVERY_ROOT_OUT)/sbin/
 ifneq ($(TW_USE_TOOLBOX), true)
 	ln -sf $(TWRP_SH_TARGET) $(TARGET_RECOVERY_ROOT_OUT)/sbin/sh

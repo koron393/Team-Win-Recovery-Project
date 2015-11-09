@@ -14,13 +14,13 @@ RELINK_SOURCE_FILES += $(TARGET_RECOVERY_ROOT_OUT)/sbin/dump_image
 RELINK_SOURCE_FILES += $(TARGET_RECOVERY_ROOT_OUT)/sbin/flash_image
 RELINK_SOURCE_FILES += $(TARGET_RECOVERY_ROOT_OUT)/sbin/erase_image
 ifneq ($(TW_USE_TOOLBOX), true)
-	RELINK_SOURCE_FILES += $(TARGET_OUT_OPTIONAL_EXECUTABLES)/busybox
+        RELINK_SOURCE_FILES += $(TARGET_OUT_OPTIONAL_EXECUTABLES)/busybox
 else
-	RELINK_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/sh
-	RELINK_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/libcrypto.so
-	ifneq (,$(filter $(PLATFORM_SDK_VERSION), 23))
-	    RELINK_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/toybox
-	endif
+        RELINK_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/sh
+        RELINK_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/libcrypto.so
+        ifneq (,$(filter $(PLATFORM_SDK_VERSION), 23))
+            RELINK_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/toybox
+        endif
 endif
 RELINK_SOURCE_FILES += $(TARGET_RECOVERY_ROOT_OUT)/sbin/pigz
 RELINK_SOURCE_FILES += $(TARGET_RECOVERY_ROOT_OUT)/sbin/dosfsck
@@ -165,15 +165,14 @@ ifneq ($(TW_EXCLUDE_ENCRYPTED_BACKUPS), true)
     RELINK_SOURCE_FILES += $(TARGET_RECOVERY_ROOT_OUT)/sbin/openaes
     RELINK_SOURCE_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/libopenaes.so
 endif
-<<<<<<< HEAD
 # MultiROM: always enable f2fs binaries
 #ifeq ($(TARGET_USERIMAGES_USE_F2FS), true)
     ifneq (,$(filter $(PLATFORM_SDK_VERSION), 21 22))
         RELINK_SOURCE_FILES += $(TARGET_ROOT_OUT_SBIN)/mkfs.f2fs
+    endif
 ifeq ($(TARGET_USERIMAGES_USE_F2FS), true)
     ifneq (,$(filter $(PLATFORM_SDK_VERSION), 23))
         RELINK_SOURCE_FILES += $(TARGET_RECOVERY_ROOT_OUT)/sbin/mkfs.f2fs
->>>>>>> android-6.0
     else
         ifneq (,$(filter $(PLATFORM_SDK_VERSION), 21 22))
             RELINK_SOURCE_FILES += $(TARGET_ROOT_OUT_SBIN)/mkfs.f2fs
@@ -182,6 +181,7 @@ ifeq ($(TARGET_USERIMAGES_USE_F2FS), true)
         endif
     endif
     RELINK_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/fsck.f2fs
+endif
 #endif
 ifneq ($(wildcard system/core/reboot/Android.mk),)
     RELINK_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/reboot
@@ -278,204 +278,204 @@ LOCAL_SRC_FILES := $(LOCAL_MODULE)
 include $(BUILD_PREBUILT)
 
 ifeq ($(BOARD_HAS_NO_REAL_SDCARD),)
-	#parted
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := parted
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #parted
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := parted
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 endif
 
 # copy license file for OpenAES
 ifneq ($(TW_EXCLUDE_ENCRYPTED_BACKUPS), true)
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := ../openaes/LICENSE
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/license/openaes
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := ../openaes/LICENSE
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/license/openaes
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 endif
 
 ifeq ($(TW_INCLUDE_DUMLOCK), true)
-	#htcdumlock for /system for dumlock
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := htcdumlocksys
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #htcdumlock for /system for dumlock
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := htcdumlocksys
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#flash_image for /system for dumlock
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := flash_imagesys
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #flash_image for /system for dumlock
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := flash_imagesys
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#dump_image for /system for dumlock
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := dump_imagesys
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #dump_image for /system for dumlock
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := dump_imagesys
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#libbmlutils for /system for dumlock
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := libbmlutils.so
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #libbmlutils for /system for dumlock
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := libbmlutils.so
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#libflashutils for /system for dumlock
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := libflashutils.so
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #libflashutils for /system for dumlock
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := libflashutils.so
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#libmmcutils for /system for dumlock
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := libmmcutils.so
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #libmmcutils for /system for dumlock
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := libmmcutils.so
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#libmtdutils for /system for dumlock
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := libmtdutils.so
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #libmtdutils for /system for dumlock
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := libmtdutils.so
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#HTCDumlock.apk
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := HTCDumlock.apk
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #HTCDumlock.apk
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := HTCDumlock.apk
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)$(TWHTCD_PATH)
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 endif
 
 ifneq ($(TW_EXCLUDE_SUPERSU), true)
-	ifeq ($(TARGET_ARCH), arm)
-		#chattr.pie
-		include $(CLEAR_VARS)
-		LOCAL_MODULE := chattr.pie
-		LOCAL_MODULE_TAGS := eng
-		LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-		LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-		LOCAL_SRC_FILES := $(LOCAL_MODULE)
-		include $(BUILD_PREBUILT)
+        ifeq ($(TARGET_ARCH), arm)
+                #chattr.pie
+                include $(CLEAR_VARS)
+                LOCAL_MODULE := chattr.pie
+                LOCAL_MODULE_TAGS := eng
+                LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+                LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+                LOCAL_SRC_FILES := $(LOCAL_MODULE)
+                include $(BUILD_PREBUILT)
 
-		#libsupol.so
-		include $(CLEAR_VARS)
-		LOCAL_MODULE := libsupol.so
-		LOCAL_MODULE_TAGS := eng
-		LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-		LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-		LOCAL_SRC_FILES := $(LOCAL_MODULE)
-		include $(BUILD_PREBUILT)
+                #libsupol.so
+                include $(CLEAR_VARS)
+                LOCAL_MODULE := libsupol.so
+                LOCAL_MODULE_TAGS := eng
+                LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+                LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+                LOCAL_SRC_FILES := $(LOCAL_MODULE)
+                include $(BUILD_PREBUILT)
 
-		#su binary
-		include $(CLEAR_VARS)
-		LOCAL_MODULE := su
-		LOCAL_MODULE_TAGS := eng
-		LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-		LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-		LOCAL_SRC_FILES := $(LOCAL_MODULE)
-		include $(BUILD_PREBUILT)
+                #su binary
+                include $(CLEAR_VARS)
+                LOCAL_MODULE := su
+                LOCAL_MODULE_TAGS := eng
+                LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+                LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+                LOCAL_SRC_FILES := $(LOCAL_MODULE)
+                include $(BUILD_PREBUILT)
 
-		#supolicy
-		include $(CLEAR_VARS)
-		LOCAL_MODULE := supolicy
-		LOCAL_MODULE_TAGS := eng
-		LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-		LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-		LOCAL_SRC_FILES := $(LOCAL_MODULE)
-		include $(BUILD_PREBUILT)
-	endif
-	ifeq ($(TARGET_ARCH), arm64)
-		#libsupol.so
-		include $(CLEAR_VARS)
-		LOCAL_MODULE := libsupol.soarm64
-		LOCAL_MODULE_STEM := libsupol.so
-		LOCAL_MODULE_TAGS := eng
-		LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-		LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-		LOCAL_SRC_FILES := $(LOCAL_MODULE)
-		include $(BUILD_PREBUILT)
+                #supolicy
+                include $(CLEAR_VARS)
+                LOCAL_MODULE := supolicy
+                LOCAL_MODULE_TAGS := eng
+                LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+                LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+                LOCAL_SRC_FILES := $(LOCAL_MODULE)
+                include $(BUILD_PREBUILT)
+        endif
+        ifeq ($(TARGET_ARCH), arm64)
+                #libsupol.so
+                include $(CLEAR_VARS)
+                LOCAL_MODULE := libsupol.soarm64
+                LOCAL_MODULE_STEM := libsupol.so
+                LOCAL_MODULE_TAGS := eng
+                LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+                LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+                LOCAL_SRC_FILES := $(LOCAL_MODULE)
+                include $(BUILD_PREBUILT)
 
-		#su binary
-		include $(CLEAR_VARS)
-		LOCAL_MODULE := suarm64
-		LOCAL_MODULE_STEM := su
-		LOCAL_MODULE_TAGS := eng
-		LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-		LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-		LOCAL_SRC_FILES := $(LOCAL_MODULE)
-		include $(BUILD_PREBUILT)
+                #su binary
+                include $(CLEAR_VARS)
+                LOCAL_MODULE := suarm64
+                LOCAL_MODULE_STEM := su
+                LOCAL_MODULE_TAGS := eng
+                LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+                LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+                LOCAL_SRC_FILES := $(LOCAL_MODULE)
+                include $(BUILD_PREBUILT)
 
-		#supolicy
-		include $(CLEAR_VARS)
-		LOCAL_MODULE := supolicyarm64
-		LOCAL_MODULE_STEM := supolicy
-		LOCAL_MODULE_TAGS := eng
-		LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-		LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-		LOCAL_SRC_FILES := $(LOCAL_MODULE)
-		include $(BUILD_PREBUILT)
-	endif
+                #supolicy
+                include $(CLEAR_VARS)
+                LOCAL_MODULE := supolicyarm64
+                LOCAL_MODULE_STEM := supolicy
+                LOCAL_MODULE_TAGS := eng
+                LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+                LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+                LOCAL_SRC_FILES := $(LOCAL_MODULE)
+                include $(BUILD_PREBUILT)
+        endif
 
-	#install-recovery.sh
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := install-recovery.sh
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #install-recovery.sh
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := install-recovery.sh
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#install-supersu.sh
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := install-supersu.sh
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #install-supersu.sh
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := install-supersu.sh
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#99SuperSUDaemon
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := 99SuperSUDaemon
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #99SuperSUDaemon
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := 99SuperSUDaemon
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 
-	#SuperSU special installer APK
-	include $(CLEAR_VARS)
-	LOCAL_MODULE := Superuser.apk
-	LOCAL_MODULE_TAGS := eng
-	LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
-	LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
-	LOCAL_SRC_FILES := $(LOCAL_MODULE)
-	include $(BUILD_PREBUILT)
+        #SuperSU special installer APK
+        include $(CLEAR_VARS)
+        LOCAL_MODULE := Superuser.apk
+        LOCAL_MODULE_TAGS := eng
+        LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+        LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/supersu
+        LOCAL_SRC_FILES := $(LOCAL_MODULE)
+        include $(BUILD_PREBUILT)
 endif

@@ -163,33 +163,33 @@ int GUIListBox::NotifyVarChange(const std::string& varName, const std::string& v
 				item.selected = 0;
 			}
 		}
-<<<<<<< HEAD
 
 		mUpdate = 1;
 		return 0;
-	} else if(!mItemsVar.empty() && mItemsVar == varName) {
+	}
+
+	if(!mItemsVar.empty() && mItemsVar == varName) {
 		std::string n;
 		char *cstr = new char[value.size()+1];
 		strcpy(cstr, value.c_str());
-		mList.clear();
+		mListItems.clear();
 		char *p = strtok(cstr, "\n");
 		while(p)
 		{
 			n = std::string(p);
-			ListData data;
+			ListItem data;
 			data.displayName = n;
 			data.variableValue = n;
 			if(n == currentValue)
 				data.selected = 1;
 			else
 				data.selected = 0;
-			mList.push_back(data);
+			mListItems.push_back(data);
 			p = strtok(NULL, "\n");
 		}
 		delete[] cstr;
 		mUpdate = 1;
 		return 0;
->>>>>>> android-6.0
 	}
 
 	if (mVisibleItemsOld != mVisibleItems) {

@@ -110,7 +110,6 @@ LOCAL_C_INCLUDES += bionic external/stlport/stlport external/openssl/include $(L
 LOCAL_STATIC_LIBRARIES :=
 LOCAL_SHARED_LIBRARIES :=
 
-<<<<<<< HEAD
 LOCAL_STATIC_LIBRARIES += libguitwrp libcp_xattrs
 LOCAL_SHARED_LIBRARIES += libz libc libstlport libcutils libstdc++ libtar libblkid libminuitwrp libminadbd libmtdutils libminzip libaosprecovery
 LOCAL_SHARED_LIBRARIES += libgccdemangle libcrecovery
@@ -123,7 +122,6 @@ ifneq ($(wildcard external/stlport/Android.mk),)
 else
     LOCAL_SHARED_LIBRARIES += libc++
 endif
->>>>>>> android-6.0
 
 # clone libbootimg to /system/extras/ from
 # https://github.com/Tasssadar/libbootimg.git
@@ -338,7 +336,6 @@ endif
 ifneq ($(wildcard bionic/libc/include/sys/capability.h),)
     LOCAL_CFLAGS += -DHAVE_CAPABILITIES
 endif
-<<<<<<< HEAD
 ifneq ($(LANDSCAPE_RESOLUTION),)
     LOCAL_CFLAGS += -DTW_HAS_LANDSCAPE
 endif
@@ -378,7 +375,6 @@ endif
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -gt 22; echo $$?),0)
     LOCAL_CFLAGS += -DTW_USE_NEW_MINADBD
 endif
->>>>>>> android-6.0
 
 LOCAL_ADDITIONAL_DEPENDENCIES := \
     dump_image \
@@ -605,14 +601,12 @@ include $(commands_recovery_local_path)/injecttwrp/Android.mk \
     $(commands_recovery_local_path)/mtp/Android.mk \
     $(commands_recovery_local_path)/minzip/Android.mk \
     $(commands_recovery_local_path)/dosfstools/Android.mk \
-<<<<<<< HEAD
     $(commands_recovery_local_path)/phablet/Android.mk \
     $(commands_recovery_local_path)/simg2img/Android.mk \
-    $(commands_recovery_local_path)/cp_xattrs/Android.mk
+    $(commands_recovery_local_path)/cp_xattrs/Android.mk \
     $(commands_recovery_local_path)/etc/Android.mk \
     $(commands_recovery_local_path)/toybox/Android.mk \
     $(commands_recovery_local_path)/libpixelflinger/Android.mk
->>>>>>> android-6.0
 
 ifeq ($(TW_INCLUDE_CRYPTO), true)
     include $(commands_recovery_local_path)/crypto/lollipop/Android.mk

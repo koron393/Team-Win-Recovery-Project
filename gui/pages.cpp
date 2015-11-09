@@ -822,7 +822,6 @@ int PageSet::CheckInclude(ZipArchive* package, xml_document<> *parentDoc)
 				filename += "landscape/";
 #endif
 			filename += attr->value();
-<<<<<<< HEAD
 			LOGINFO("PageSet::CheckInclude loading filename: '%s'\n", filename.c_str());
 			struct stat st;
 			if(stat(filename.c_str(),&st) != 0) {
@@ -864,14 +863,11 @@ int PageSet::CheckInclude(ZipArchive* package, xml_document<> *parentDoc)
 				return -1;
 			}
 			xmlFile[len] = 0;
-		} else {
-			filename += attr->value();
 		}
 		xmlFile = PageManager::LoadFileToBuffer(filename, package);
 		if (xmlFile == NULL) {
 			LOGERR("PageSet::CheckInclude unable to load '%s'\n", filename.c_str());
 			return -1;
->>>>>>> android-6.0
 		}
 
 		doc = new xml_document<>();
