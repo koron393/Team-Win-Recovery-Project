@@ -131,7 +131,7 @@ endif
 
 LOCAL_SHARED_LIBRARIES += libz libc libcutils libjpeg libpng
 LOCAL_STATIC_LIBRARIES += libpixelflinger_static
-LOCAL_SHARED_LIBRARIES += libft2 libz libc libcutils libjpeg libpng
+LOCAL_SHARED_LIBRARIES += libft2 libz libc libcutils libjpeg libpng libutils
 LOCAL_STATIC_LIBRARIES += libpixelflinger_twrp
 LOCAL_MODULE_TAGS := eng
 LOCAL_MODULE := libminuitwrp
