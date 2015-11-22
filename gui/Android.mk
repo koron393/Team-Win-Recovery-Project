@@ -169,7 +169,7 @@ else
         else ifneq ($(filter $(LANDSCAPE_RESOLUTION), $(WATCH_MDPI)),)
             TW_THEME_LANDSCAPE := watch_mdpi
         else ifneq ($(filter $(LANDSCAPE_RESOLUTION), $(LANDSCAPE_MDPI)),)
-            TW_THEME := landscape_mdpi
+            TW_THEME_LANDSCAPE := landscape_mdpi
         else ifneq ($(filter $(LANDSCAPE_RESOLUTION), $(LANDSCAPE_HDPI)),)
             TW_THEME_LANDSCAPE := landscape_hdpi
         endif

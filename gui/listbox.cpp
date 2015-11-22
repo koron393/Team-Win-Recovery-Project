@@ -62,6 +62,7 @@ GUIListBox::GUIListBox(xml_node<>* node) : GUIScrollList(node)
 
 	// Get the data for the list
 	child = FindNode(node, "listitem");
+	if (!child) return;
 	while (child) {
 		ListItem item;
 
@@ -95,16 +96,6 @@ GUIListBox::GUIListBox(xml_node<>* node) : GUIScrollList(node)
 
 		child = child->next_sibling("listitem");
 	}
-
-	// Load dynamic data
-	child = node->first_node("items");
-	if (child)
-		mItemsVar = child->value();
-
-	// Call this to get the selected item to be shown in the list on first render
-	NotifyVarChange(mVariable, currentValue);
-	if(!mItemsVar.empty())
-		NotifyVarChange(mItemsVar, DataManager::GetStrValue(mItemsVar));
 }
 
 GUIListBox::~GUIListBox()
@@ -150,8 +141,10 @@ int GUIListBox::NotifyVarChange(const std::string& varName, const std::string& v
 
 		if (isCheckList)
 		{
-			if (item.variableName == varName) {
-				item.selected = (value != "0");
+			if (item.variableName == varName || varName.empty()) {
+				std::string val;
+				DataManager::GetValue(item.variableName, val);
+				item.selected = (val != "0");
 				mUpdate = 1;
 			}
 		}
@@ -163,33 +156,6 @@ int GUIListBox::NotifyVarChange(const std::string& varName, const std::string& v
 				item.selected = 0;
 			}
 		}
-
-		mUpdate = 1;
-		return 0;
-	}
-
-	if(!mItemsVar.empty() && mItemsVar == varName) {
-		std::string n;
-		char *cstr = new char[value.size()+1];
-		strcpy(cstr, value.c_str());
-		mListItems.clear();
-		char *p = strtok(cstr, "\n");
-		while(p)
-		{
-			n = std::string(p);
-			ListItem data;
-			data.displayName = n;
-			data.variableValue = n;
-			if(n == currentValue)
-				data.selected = 1;
-			else
-				data.selected = 0;
-			mListItems.push_back(data);
-			p = strtok(NULL, "\n");
-		}
-		delete[] cstr;
-		mUpdate = 1;
-		return 0;
 	}
 
 	if (mVisibleItemsOld != mVisibleItems) {
@@ -207,8 +173,6 @@ void GUIListBox::SetPageFocus(int inFocus)
 {
 	GUIScrollList::SetPageFocus(inFocus);
 	if (inFocus) {
-		if(!mItemsVar.empty())
-			NotifyVarChange(mItemsVar, DataManager::GetStrValue(mItemsVar));
 		DataManager::GetValue(mVariable, currentValue);
 		NotifyVarChange(mVariable, currentValue);
 	}
